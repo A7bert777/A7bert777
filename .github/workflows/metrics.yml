@@ -1,0 +1,23 @@
+name: Metrics
+on:
+  # 每天运行一次
+  schedule: [{cron: "0 0 * * *"}]
+  # 允许手动触发
+  workflow_dispatch:
+  # 每当主分支有 push 时触发
+  push: {branches: ["master", "main"]}
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: lowlighter/metrics@latest
+        with:
+          # 你的 GitHub Token (需要在设置里申请一个 Personal Access Token)
+          token: ${{ secrets.METRICS_TOKEN }}
+          # 你的用户名
+          user: 你的用户名
+          template: classic
+          base: header, activity, community, repositories, metadata
+          config_timezone: Asia/Shanghai
